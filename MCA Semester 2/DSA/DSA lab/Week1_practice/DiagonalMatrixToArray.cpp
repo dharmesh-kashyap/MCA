@@ -1,11 +1,17 @@
 #include<iostream>
 using namespace std;
 
+void showArray(int array2[], int size){
+     for(int i = 0; i < size; i++){
+        cout << array2[i] << " ";
+        }
+}
+
 int main(){
     int m, n, o, p, k = 0;
     cout << "Enter the number of rows and columns: ";
     cin >> m >> n;
-    int size = 3*m-2;
+    int size = m ;
     int arr[m][n];
 
     if(m == n) {
@@ -32,34 +38,30 @@ int main(){
         cout << "The array (row major order) is: ";
         for(int i = 0; i < m; i++){
             for(int j = 0; j < n; j++){
-                if(i == j){
+                    if(i == j){
                     array[k] = arr[i][j];
                     k++;
                 }
             }
         }
 
-        for(int i = 0; i < size; i++){
-            cout << array[i] << " ";
-        }
+        showArray(array, size);
 
-        // Reset k for column major order
+        // Reset l for column major order
         int l = 0;
 
         // Column major order
         cout << "\nThe array (column major order) is: ";
         for(int i = 0; i < n; i++){
             for(int j = 0; j < m; j++){
-                if(i == j){
+                   if(i == j){
                     array2[l] = arr[i][j];
                     l++;
                 }
             }
         }
 
-        for(int i = 0; i < size; i++){
-            cout << array2[i] << " ";
-        }
+        showArray(array2, size);
 
         do {
             cout << "\nEnter the Choice \n 1 for Row Major Order \n 2 for Column Major Order\n 3. Exit  \t";
@@ -77,7 +79,7 @@ int main(){
                     for(int i = 0; i < size; i++){
                         condition1 = (o == i && p == i);
                         if(condition1){
-                            cout << "\nThe Target value in the array is: " << array[i] << endl;
+                            cout << "\nThe Target value in the array is: " << array[i]<<" At the Position: "<< i << endl;
                             break;
                         }
                     }
@@ -85,9 +87,7 @@ int main(){
                         cout << "\nThe target value is not found in the array." << endl;
                     }
                     cout << "The array (row major order) is: ";
-                    for(int i = 0; i < size; i++){
-                        cout << array[i] << " ";
-                    }
+                    showArray(array, size);
                     break;
 
                 case 2:
@@ -98,7 +98,7 @@ int main(){
                     for(int i = 0; i < size; i++){
                         condition1 = (o == i && p == i);
                         if(condition1){
-                            cout << "\nThe Target value in the array is: " << array2[i] << endl;
+                            cout << "\nThe Target value in the array is: " << array2[i]<<" At the Position: "<< i << endl;
                             break;
                         }
                     }
@@ -106,9 +106,7 @@ int main(){
                         cout << "\nThe target value is not found in the array." << endl;
                     }
                     cout << "The array (column major order) is: ";
-                    for(int i = 0; i < size; i++){
-                        cout << array2[i] << " ";
-                    }
+                    showArray(array2, size);
                     break;
 
                 case 3:
