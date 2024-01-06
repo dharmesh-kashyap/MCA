@@ -4,25 +4,26 @@ using namespace std;
 int main(){
 
     int m , n ; 
-    cout<<"Enter the Row & column of the matrix: \n";
+    cout<<"Enter the Row & Column of the matrix: \n";
     cin>>m>>n;
-    int size = 3*m-2;
+    int size = m;
     int matrix[m][n];
     int ArrayRow[size];
     int ArrayCol[size];
 
     if(m!=n){
-        cout<<"\nPlease Enter the Valid Square Matrix\n";
+        cout<<"\nPlease Enter the valid square matrix\n";
     }
     else{
-
+        cout<<"\n";
     for(int i = 0; i < m ; i++){
         for(int j = 0; j < n; j++){
-            cout<<"Enter the Matrix elementon: "<<i<<j<<" ";
+            cout<<"Enter the Matrix elements on: "<<i<<j<<" : ";
             cin>>matrix[i][j];
         }
     }
- cout<<"\nThe Matrix is: \n";
+
+    cout<<"\nThe Matrix is: \n";
     for(int i = 0; i < m ; i++){
         for(int j = 0; j < n; j++){
             cout<<matrix[i][j]<<" ";
@@ -34,36 +35,33 @@ int main(){
     int k = 0;
     for(int i = 0; i < m ; i++){
         for(int j = 0; j < n; j++){
-           if ((i == j) || (i==j+1) || (i==j-1)){
+           if (i == j){
             ArrayRow[k]=matrix[i][j];
             k++;
            }
-           else{
-            cout<<"0 ";
-           }
+           
         }
     }
 
-    cout<<"The Array of row matrix is: \n";
+    cout<<"\nThe Array of row major is: \n";
     for(int i = 0; i < size ; i++){
         cout<<ArrayRow[i]<<" ";
     }
 
     //For the Column Major Matrix: 
     k = 0;
+   
     for(int i = 0; i < m ; i++){
         for(int j = 0; j < n; j++){
-           if ((i == j) || (i==j+1) || (i==j-1)){
+           if (i == j){
             ArrayCol[k]=matrix[j][i];
             k++;
            }
-              else{
-                cout<<"0 ";
-              }
+           
         }
     }
 
-    cout<<"\nThe Array of Column matrix is: \n";
+    cout<<"\n\nThe Array of column major is: \n";
     for(int i = 0; i < size ; i++){
         cout<<ArrayCol[i]<<" ";
     }
@@ -72,32 +70,26 @@ int main(){
 
     do{
         int row, col, choice;
-        cout<<"\n---------Menu---------\n1. According to row major\n2. According to Column Major\n3. Exit\nEnter the Choice: ";
+        cout<<"\n\n---------Menu---------\n1. According to row major\n2. According to Column Major\n3. Exit\nEnter the Choice: ";
         cin>>choice;
 
         switch(choice){
             case 1: 
-                cout<<"Enter the Position of the tagetted values: \n";
+                cout<<"\nEnter the Position of the target values: \n";
                 cin>>row>>col;
                 for(int i = 0; i < size ; i++){
-                    if(i==2*row+col){
-                        cout<<"The target value is: "<<ArrayRow[i]<<" At the position: "<<i<<endl;
-                    }
-                    else{
-                        cout<<"\nVALUE NOT FOUND\n ";
+                    if(i==row && i==col){
+                        cout<<"\nThe target value is: "<<ArrayRow[i]<<" At the position: "<<i<<endl;
                     }
                 }   
                 break;
 
             case 2: 
-                cout<<"Enter the Position of the tagetted values: \n";
+                cout<<"\nEnter the Position of the target values: \n";
                 cin>>row>>col;
                 for(int i = 0; i < size ; i++){
-                    if(i==2*row+col){
-                        cout<<"The target value is: "<<ArrayCol[i]<<" At the position: "<<i<<endl;
-                    }
-                    else{
-                        cout<<"\nVALUE NOT FOUND\n ";
+                    if(i==row && i==col){
+                        cout<<"\nThe target value is: "<<ArrayCol[i]<<" At the position: "<<i<<endl;
                     }
                 }   
                 break;
@@ -108,7 +100,7 @@ int main(){
                 break;
 
             default: 
-                cout<<"\n Enter the Valid Choice";
+                cout<<"\n Enter the valid Choice";
                 break;
         }
     } while(cond == true);
