@@ -1,0 +1,85 @@
+#question 1 
+#!/bin/bash
+echo "Enter the File name: "
+read fname
+echo `cat $fname `
+echo `ls -l $fname`
+
+
+#question 2 
+#!/bin/bash
+echo "Enter the first variable: "
+read variable_1
+echo "Enter the second variable: "
+read variable_2
+echo "The difference between the variable is: " `expr $variable_1 - $variable_2`
+echo "The Summation of variable is: " `expr $variable_1 + $variable_2`
+echo "The multiplication the variable is: " `expr $variable_1 \* $variable_2`
+variable_3=`echo "scale=4; $variable_1/$variable_2" | bc`
+echo "The divide between the variable is: $variable_3"
+
+
+#question 3
+#!/bin/bash
+echo "Enter the file name: "
+read filename
+echo "The content of file 1"
+cat $filename
+echo "Enter the name you want to replace with: "
+read filename2
+cp $filename $filename2
+echo "file copied with name: "
+ls $filename2*
+echo "The content of the file 2: "
+cat $filename2
+
+#question 4 
+#!/bin/bash
+echo "Enter the value: "
+read val1
+
+if [ $val1 -gt 0 ]
+then
+    echo "The number is positive: $val1"
+else
+    echo "The number is negative: $val1"
+fi
+
+
+#question 5 
+#!/bin/bash
+#!/bin/bash
+echo "Enter the first value: "
+read val1
+echo "Enter the second value: "
+read val2
+if [ $val1 -gt $val2 ]
+then
+        echo "The value $val1 is greater than $val2"
+else
+        echo " The value $val2 is greater than $val1 "
+fi
+
+#question 6 
+#!/bin/bash
+
+echo "Enter the first number: "
+read num1
+echo "Enter the second number: "
+read num2
+echo "Numbers between $num1 and $num2: "
+current=$num1
+while [ $current -le $num2 ]
+do
+    echo $current
+    ((current++))
+done
+sum=0
+current=$num1
+until [ $current -gt $num2 ]
+do
+    ((sum += current))
+    ((current++))
+done
+echo "Sum of numbers between $num1 and $num2 is: $sum"
+
