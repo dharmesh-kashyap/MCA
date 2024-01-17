@@ -1,47 +1,64 @@
 #include <iostream>
 using namespace std;
 
+// A utility function to return maximum of two integers
 int max(int m, int n) {
-    return (m > n) ? m : n;
+    if (m > n) {
+        return m;
+    } else {
+        return n;
+    }
 }
 
-void printPolyReverse(int poly[], int n) {
+
+// A utility function to print a polynomial in reverse order
+void printPolyReverse(int poly[], int n)
+{
     for (int i = n - 1; i >= 0; i--) {
         if (poly[i] != 0) {
-            if (i != n - 1)
-                cout << " + ";
-
             cout << poly[i];
             if (i != 0) {
                 cout << "x";
                 if (i != 1)
                     cout << "^" << i;
             }
+            if (i != 0 && i != n - 1)
+                cout << " + ";
         }
     }
 }
 
-void getPolynomial(int poly[], int size, const char* polynomialName) {
-    cout << "Enter the coefficients of the " << polynomialName << " polynomial:\n";
-    for (int i = 0; i < size; i++) {
+// Function to get polynomial coefficients from the user
+void getPolynomial(int poly[], int size, const char* polynomialName)
+{
+    cout << "Enter the coefficients of the " << polynomialName << " polynomial: ";
+    for (int i = 0; i < size; i++)
+    {
         cout << "Enter the coefficient for x^" << i << ": ";
         cin >> poly[i];
     }
-}
+}   
 
-void addPolynomials(int A[], int B[], int m, int n, int result[]) {
+// Function to add two polynomials
+void addPolynomials(int A[], int B[], int m, int n, int result[])
+{
     int size = max(m, n);
+
+    // Initialize the result polynomial
     for (int i = 0; i < size; i++)
         result[i] = 0;
 
+    // Add coefficients of the first polynomial
     for (int i = 0; i < m; i++)
         result[i] += A[i];
 
+    // Add coefficients of the second polynomial
     for (int i = 0; i < n; i++)
         result[i] += B[i];
 }
 
-int main() {
+int main()
+{
     int m, n;
 
     cout << "Enter the degree of the first polynomial: ";
