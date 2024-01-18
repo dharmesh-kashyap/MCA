@@ -4,7 +4,7 @@ using namespace std;
 int main() {
     int row, column, size = 0; // Initialize size to 0
     cout << "Enter row: " << endl;
-    cin >> row;
+    cin >> row; 
     cout << "Enter column: " << endl;
     cin >> column;
 

@@ -32,19 +32,21 @@ echo "file copied with name: "
 ls $filename2*
 echo "The content of the file 2: "
 cat $filename2
+echo "Enter the file name to rename: "
+read filename3
+mv $filename2 $filename3
 
 #question 4 
 #!/bin/bash
 echo "Enter the value: "
 read val1
 
-if [ $val1 -gt 0 ]
+if [ $((val1%2)) -eq 0 ]
 then
-    echo "The number is positive: $val1"
+    echo "The number is Even: $val1"
 else
-    echo "The number is negative: $val1"
+    echo "The number is Odd: $val1"
 fi
-
 
 #question 5 
 #!/bin/bash

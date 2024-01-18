@@ -12,7 +12,7 @@ int max(int m, int n) {
 
 
 // A utility function to print a polynomial in reverse order
-void printPolyReverse(int poly[], int n)
+void printPoly(int poly[], int n)
 {
     for (int i = n - 1; i >= 0; i--) {
         if (poly[i] != 0) {
@@ -77,11 +77,11 @@ int main()
     addPolynomials(A, B, m, n, result);
 
     cout << "\nFirst polynomial is: ";
-    printPolyReverse(A, m);
+    printPoly(A, m);
     cout << "\nSecond polynomial is: ";
-    printPolyReverse(B, n);
+    printPoly(B, n);
     cout << "\nSum polynomial is: ";
-    printPolyReverse(result, size);
+    printPoly(result, size);
 
     return 0;
 }
