@@ -1,4 +1,4 @@
-package com.Questions;
+package Questions;
 import java.util.Scanner;
 public class CheckPrimeNumber {
     public static void main(String[] args) {

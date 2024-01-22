@@ -30,11 +30,7 @@ public class ArrayInverse{
             Array2[i]=reverse;
             reverse = 0;
         }
-        System.out.print("\nThe Array of integer you entered is: ");
-         for(int i = 0 ; i < n ; i++){
-            System.out.print(Array1[i]+" ");   
-        }
-        System.out.print("\nThe Array of integer you entered is: ");
+        System.out.print("\nThe Array of integer Reversed: ");
          for(int i = 0 ; i < n ; i++){
             System.out.print(Array2[i]+" ");   
         }

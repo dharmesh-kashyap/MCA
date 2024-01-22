@@ -28,5 +28,6 @@ public class javafirst
 				else if(bmi>30){
 								System.out.println( "BMI: " + bmi + "\nObese !!\n" );
 				}
+				sc.close();
 		}
 	}

@@ -1,4 +1,4 @@
-#question 1
+  #question 1
 #!/bin/bash
 echo "Enter the first variable: "
 read variable_1
@@ -7,15 +7,17 @@ read variable_2
 echo "The difference between the variable is: " `expr $variable_1 - $variable_2`
 echo "The Summation of variable is: " `expr $variable_1 + $variable_2`
 echo "The multiplication the variable is: " `expr $variable_1 \* $variable_2`
-variable_3=`echo "scale=4; $variable_1/$variable_2" | bc`
+variable_3=`echo "scale=4; $variable_1/$variable_2" | bc` 
 echo "The divide between the variable is: $variable_3"
 
 #question 2 
 #!/bin/bash
 echo "Enter the File name: "
 read fname
-echo `cat $fname `
+echo `cat > $fname `
 echo `ls -l $fname`
+echo `cat $fname `
+
 
 #question 3
 #!/bin/bash
@@ -88,25 +90,35 @@ Question 7
 #!/bin/bash
 echo "Enter the number: "
 read val
-if [ $val -eq 0 ]
-then 
-echo "The value is zero"
-else
-echo "The value is non zero: $val" 
-fi
+case $val in
+  0)
+    echo "The value is zero"
+    ;;
+  *)
+    echo "The value is non-zero: $val"
+    ;;
+esac
+
 
 Question 8
 #!/bin/bash
+
 echo "Enter a character: "
 read char
-if [[ $char =~ [a-z] ]]; then
+
+case $char in
+  [a-z])
     echo "$char is a lowercase alphabet."
-elif [[ $char =~ [A-Z] ]]; then
+    ;;
+  [A-Z])
     echo "$char is an uppercase alphabet."
-elif [[ $char =~ [0-9] ]]; then
+    ;;
+  [0-9])
     echo "$char is a digit."
-else
+    ;;
+  *)
     echo "$char is a special character."
-fi
+    ;;
+esac
 
 
