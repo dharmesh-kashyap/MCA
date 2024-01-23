@@ -7,17 +7,7 @@ mkdir OS206
 ls
 examples.desktop  OS206
 cd OS206
-mkdir week1
-mkdir week2
-mkdir week3
-mkdir week4
-mkdir week5
-mkdir week6
-mkdir week7
-mkdir week8
-mkdir week9
-mkdir week10
-mkdir week11
+mkdir week1 week2 week3 week4 week5 week6 week7 week8 week9 week10 week11
 ls
 week1  week10  week11  week2  week3  week4  week5  week6  week7  week8  week9
 cd week1
@@ -58,79 +48,13 @@ total 8
 -rw-rw-r-- 1 mca305 mca305    6 Jan  9 09:57 f1.txt
 -rw-rw-r-- 1 mca305 mca305    0 Jan  9 10:06 info.txt
 drwxrwxr-x 2 mca305 mca305 4096 Jan  9 09:59 TestFolder
-IX
-touch a.txt
-ls -l a*
--rw-rw-r-- 1 mca206 mca206 0 Jan  4 11:04 a.txt
-
-X
-cat month_names.txt
-01 jan
-02 feb
-12 dec
-11 nov
-10 oct
-03 mar
-04 apr
-05 may
-06 june
-07 july
-08 aug
-09 sept
-sort month_names.txt
-01 jan
-02 feb
-03 mar
-04 apr
-05 may
-06 june
-07 july
-08 aug
-09 sept
-10 oct
-11 nov
-12 dec
-sort -r month_names.txt
-12 dec
-11 nov
-10 oct
-09 sept
-08 aug
-07 july
-06 june
-05 may
-04 apr
-03 mar
-02 feb
-01 jan
-
-XI
-head -5 month_names.txt
-01 jan
-02 feb
-12 dec
-11 nov
-10 oct
-tail -5 month_names.txt
-05 may
-06 june
-07 july
-08 aug
-09 sept
-
-XII
-touch desc.txt
-man pwd >> desc.txt
-man date >> desc.txt
-man ls >> desc.txt
 
 
-
+VIII
 a) Remove blank lines wherever the *** is found
-	grep -v -e '^$' foo.txt
-
+	:g/\*\*\*/d
 b) Replace all occurrences of the word “Linux” with “Ubuntu”
-	sed -i 's/original/new/g' file.txt
+	sed -i 's/Linux/Ubuntu/g' file.txt
 	
 c) Save and return to command line prompt
 	:wq
@@ -141,6 +65,35 @@ e) Rename “Linux.txt” with the name “Ubuntu.txt”
 	
 f) Make a copy of the same text file in the name “Linux1.txt” at command prompt
 	cp ubuntu.txt linux1.txt
+
+
+IX
+touch a.txt
+ls -l a*
+-rw-rw-r-- 1 mca206 mca305 0 Jan  4 11:04 a.txt
+
+X
+cat month_names.txt
+
+sort month_names.txt
+
+sort -r month_names.txt
+
+
+XI
+head -5 month_names.txt
+
+tail -5 month_names.txt
+
+
+XII
+touch desc.txt
+man pwd >> desc.txt
+man date >> desc.txt
+man ls >> desc.txt
+
+
+
 
 
 
