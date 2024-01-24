@@ -19,7 +19,7 @@ public class box{
 		volume = width*height*depth;
         System.out.println("Product details: ");
         System.out.println("Width: " + width);
-        System.out.println("Heigh: " + height);
+        System.out.println("Height: " + height);
         System.out.println("depth: " + depth);
         System.out.println("Volume: " + volume);
 
