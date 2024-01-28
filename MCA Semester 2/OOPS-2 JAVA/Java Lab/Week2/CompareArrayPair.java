@@ -22,7 +22,7 @@ public class CompareArrayPair {
            num =  Array1[i];
            for(int j = 0; j < n; j ++){
             if( num > Array1[j]){
-                System.out.print(num+","+Array1[j]+" ");
+                System.out.print("("+num+","+Array1[j]+") ");
             }
            }
         }
