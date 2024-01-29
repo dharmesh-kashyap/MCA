@@ -1,0 +1,171 @@
+#..... 1.A
+
+#!/bin/bash
+
+echo "Enter the File name: "
+read file
+
+if [ -r "$file" ]; then
+    echo "File has read permission."
+else
+    echo "File does not have read permission."
+fi
+
+if [ -w "$file" ]; then
+    echo "File has write permission."
+else
+    echo "File does not have write permission."
+fi
+
+if [ -x "$file" ]; then
+    echo "File has execute permission."
+else
+    echo "File does not have execute permission."
+fi
+
+
+
+#......1.B
+
+#!/bin/bash
+
+echo "Enter the Path name: "
+read path
+
+if [ -f "$path" ]; then
+    echo "Path is a regular file."
+else
+    echo "Path is not a regular file."
+fi
+
+if [ -d "$path" ]; then
+    echo "Path is a directory."
+else
+    echo "Path is not a directory."
+fi
+
+if [ -e "$path" ]; then
+    echo "Path exists."
+else
+    echo "Path does not exist."
+fi
+
+if [ -s "$path" ]; then
+    echo "File has size greater than zero."
+else
+    echo "File does not have size greater than zero."
+fi
+
+
+#..........2.c
+
+#!/bin/bash
+
+echo "Files with read permission in the current directory: "
+for file in *; do
+    if [ -r "$file" ]; then
+        echo "$file"
+    fi
+done
+
+
+#...........2.d
+
+#!/bin/bash
+
+echo "Enter a file name: "
+read file
+
+if [ -e "$file" ]; then
+    echo "File: $file"
+    
+    if [ -r "$file" ]; then
+        echo "Read permission: Yes"
+    else
+        echo "Read permission: No"
+    fi
+
+    if [ -w "$file" ]; then
+        echo "Write permission: Yes"
+    else
+        echo "Write permission: No"
+    fi
+
+    if [ -x "$file" ]; then
+        echo "Execute permission: Yes"
+    else
+        echo "Execute permission: No"
+    fi
+else
+    echo "File does not exist."
+fi
+
+
+
+#...........2.e
+
+#!/bin/bash
+
+echo "Enter a file name: "
+read file
+
+if [ -e "$file" ]; then
+    if [ -w "$file" ]; then
+        echo "Enter text to append: "
+        read new_text
+        echo "$new_text" >> "$file"
+        echo "Text appended successfully."
+    else
+        echo "Error: File does not have write permission."
+    fi
+else
+    echo "Error: File does not exist."
+fi
+
+
+
+#---------------3.F
+
+#!/bin/bash
+
+# Count and display the number of ordinary files, hidden files, and subdirectories
+echo "Counting files and directories in the working directory:"
+
+# Initialize counters
+ordinary_files=0
+hidden_files=0
+subdirectories=0
+
+# Loop through all files and directories in the current directory
+for item in * .*; do
+    if [ -f "$item" ]; then
+        if [[ "$item" == .* ]]; then
+            ((hidden_files++))
+        else
+            ((ordinary_files++))
+        fi
+    elif [ -d "$item" ] && [ "$item" != "." ] && [ "$item" != ".." ]; then
+        ((subdirectories++))
+    fi
+done
+
+echo "Number of ordinary files: $ordinary_files"
+echo "Number of hidden files: $hidden_files"
+echo "Number of subdirectories: $subdirectories"
+
+
+ 
+#----------------------3.G
+
+g) Display the names of all files in the working directory which have size
+greater than 0.
+
+#!/bin/bash
+    for file_name in *
+    do
+      if [[( -s $file_name )]]
+      then
+          echo $file_name
+      fi
+    done
+

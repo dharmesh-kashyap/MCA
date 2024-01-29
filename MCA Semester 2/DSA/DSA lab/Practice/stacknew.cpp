@@ -1,65 +1,82 @@
-#include<iostream>
+#include <bits/stdc++.h>
 using namespace std;
-struct stack{
-    int capacity;
-    int *arr;
-    int top;
 
-    stack(int size){
-        capacity = size;
-        top = -1;
-        arr = new int[capacity];
-    }
+// Function to return precedence of operators
+int prec(char c) {
+	if (c == '^')
+		return 3;
+	else if (c == '/' || c == '*')
+		return 2;
+	else if (c == '+' || c == '-')
+		return 1;
+	else
+		return -1;
+}
 
-    bool isEmpty(){
-        return top == -1;
-    }
+// Function to return associativity of operators
+char associativity(char c) {
+	if (c == '^')
+		return 'R';
+	return 'L'; // Default to left-associative
+}
 
-    bool isFull(){
-        return top == capacity - 1;
-    }
+// The main function to convert infix expression
+// to postfix expression
+void infixToPostfix(string s) {
+	stack<char> st;
+	string result;
 
-    void push(int x){
-        if (isFull()) {
-            cout<<"Stack is Full";
-            return; 
-        }
-        arr[++top] = x;
-    }
+	for (int i = 0; i < s.length(); i++) {
+		char c = s[i];
 
-    int pop(){
-        if (isEmpty()) {
-            cout<<"The stack is empty";
-            return top = -1;
-        }
-        return arr[top--];
-    }
+		// If the scanned character is
+		// an operand, add it to the output string.
+		if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9'))
+			result += c;
 
-    int peek(){
-        if (isEmpty()) {
-            cout<<"The stack is empty";
-            return -1;
-        }
-        return arr[top];
-    }
-};
-int main(){
-    int capacity;
-    cout<<"Enter the capacity of stack: ";
-    cin>>capacity;
-    stack s(capacity);
+		// If the scanned character is an
+		// ‘(‘, push it to the stack.
+		else if (c == '(')
+			st.push('(');
 
-    int d;
+		// If the scanned character is an ‘)’,
+		// pop and add to the output string from the stack
+		// until an ‘(‘ is encountered.
+		else if (c == ')') {
+			while (st.top() != '(') {
+				result += st.top();
+				st.pop();
+			}
+			st.pop(); // Pop '('
+		}
 
-    for (int i = 0; i < capacity ; i++){
-        cout<<"\nEnter the values: ";
-        cin>>d;
-        s.push(d);
-    }
+		// If an operator is scanned
+		else {
+			while (!st.empty() && prec(s[i]) < prec(st.top()) ||
+				!st.empty() && prec(s[i]) == prec(st.top()) &&
+				associativity(s[i]) == 'L') {
+				result += st.top();
+				st.pop();
+			}
+			st.push(c);
+		}
+	}
 
-    cout<<s.pop()<<" This value is popped\n";
-    cout<<s.peek()<<"This is the top value\n";
+	// Pop all the remaining elements from the stack
+	while (!st.empty()) {
+		result += st.top();
+		st.pop();
+	}
 
+	cout << result << endl;
+}
 
-    return 0;
+// Driver code
+int main() {
+	string exp = "a+b*(c^d-e)^(f+g*h)-i";
+
+	// Function call
+	infixToPostfix(exp);
+
+	return 0;
 }

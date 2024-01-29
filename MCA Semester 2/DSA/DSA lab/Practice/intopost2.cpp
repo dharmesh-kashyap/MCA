@@ -1,14 +1,15 @@
 #include<iostream>
 using namespace std;
+
 struct stack{
     int capacity;
-    int *arr;
+    char *arr;
     int top;
 
     stack(int size){
         capacity = size;
         top = -1;
-        arr = new int[capacity];
+        arr = new char[capacity];
     }
 
     bool isEmpty(){
@@ -43,21 +44,35 @@ struct stack{
         return arr[top];
     }
 };
-int main(){
-    int capacity;
-    cout<<"Enter the capacity of stack: ";
-    cin>>capacity;
-    stack s(capacity);
 
-    int d;
-
-    for (int i = 0; i < capacity ; i++){
-        cout<<"\nEnter the values: ";
-        cin>>d;
-        s.push(d);
+int prec(char c){
+    if (c == '^') {
+        return 3;
     }
+    else if ( c == '/' || c == '*' ){
+        return 2;
+    }
+    else if ( c == '+' || c == '-' ){
+        return 1;
+    }
+    else {
+        return -1;
+    }
+}
 
-    cout<<s.pop()<<" This value is popped\n";
-    cout<<s.peek()<<"This is the top value\n";
+char assoc(char c){
+    if (c == '^'){
+        return 'R';
+    }
+    return 'L';
+}
+
+void infixtopostfix(string s){
+    stack s()
+}
+
+
+int main(){
+   
     return 0;
 }
