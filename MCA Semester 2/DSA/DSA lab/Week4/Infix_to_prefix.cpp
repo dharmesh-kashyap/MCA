@@ -57,7 +57,7 @@ int precedence(char op) {
     return 0;
 }
 
-string infixToPostfix(const string& infix) {
+string infixToPrefix(const string& infix) {
     string prefix;
     Stack operators(infix.length());
 
@@ -106,8 +106,8 @@ int main() {
     cout << "Enter the infix expression: ";
     getline(cin, infixExpression);
 
-    string postfixExpression = infixToPostfix(infixExpression);
-    cout << "Postfix expression: " << postfixExpression << endl;
+    string prefixExpression = infixToPrefix(infixExpression);
+    cout << "Postfix expression: " << prefixExpression << endl;
 
     return 0;
 }
