@@ -107,7 +107,7 @@ int main() {
     getline(cin, infixExpression);
 
     string prefixExpression = infixToPrefix(infixExpression);
-    cout << "Postfix expression: " << prefixExpression << endl;
+    cout << "Prefix expression: " << prefixExpression << endl;
 
     return 0;
 }
