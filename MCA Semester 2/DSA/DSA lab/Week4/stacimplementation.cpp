@@ -25,7 +25,7 @@ struct stack{
             return; 
         }
         arr[++top] = x;
-    }
+    } 
 
     int pop(){
         if (isEmpty()) {
@@ -59,5 +59,6 @@ int main(){
 
     cout<<s.pop()<<" This value is popped\n";
     cout<<s.peek()<<"This is the top value\n";
+    
     return 0;
 }

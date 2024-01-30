@@ -3,10 +3,10 @@ examples.desktop
 pwd
 /home/mca206
 II
-mkdir OS206
+mkdir OS305
 ls
-examples.desktop  OS206
-cd OS206
+examples.desktop  OS305
+cd OS305
 mkdir week1 week2 week3 week4 week5 week6 week7 week8 week9 week10 week11
 ls
 week1  week10  week11  week2  week3  week4  week5  week6  week7  week8  week9
