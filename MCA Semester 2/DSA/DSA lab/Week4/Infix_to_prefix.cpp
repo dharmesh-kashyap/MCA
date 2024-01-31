@@ -14,6 +14,10 @@ struct Stack{
         arr = new int[capacity];
     }
 
+    ~Stack() {
+        delete[] arr;
+    }
+
     bool isEmpty(){
         return top == -1;
     }

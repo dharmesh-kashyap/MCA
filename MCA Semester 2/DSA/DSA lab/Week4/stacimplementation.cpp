@@ -10,6 +10,10 @@ struct stack{
         top = -1;
         arr = new int[capacity];
     }
+    ~stack(){
+        delete[] arr;
+    }
+
 
     bool isEmpty(){
         return top == -1;
@@ -58,7 +62,7 @@ int main(){
     }
 
     cout<<s.pop()<<" This value is popped\n";
-    cout<<s.peek()<<"This is the top value\n";
+    cout<<s.peek()<<" This is the top value\n";
     
     return 0;
 }

@@ -5,15 +5,18 @@ using namespace std;
 
 struct Stack{
     int capacity;
-    int *arr;
+    char *arr;
     int top;
 
     Stack(int size){
         capacity = size;
         top = -1;
-        arr = new int[capacity];
+        arr = new char[capacity];
     }
-
+    ~Stack() {
+        delete[] arr;
+    }
+    
     bool isEmpty(){
         return top == -1;
     }
@@ -61,7 +64,7 @@ string infixToPostfix(const string& infix) {
     string postfix;
     Stack operators(infix.length());
 
-    for (int i = 0; i < infix.length(); ++i) {
+    for (int i = 0; i < infix.length(); i++) {
         char ch = infix[i];
         if ((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9')) {
             postfix += ch;
