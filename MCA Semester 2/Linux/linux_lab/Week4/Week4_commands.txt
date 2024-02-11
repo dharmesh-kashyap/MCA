@@ -1,0 +1,140 @@
+1) Additional Linux Commands: Test the function of each of the following.
+
+a) Transforming data: cut, sort, tr
+cat > month.txt
+
+output: 
+1. jan
+2. Feb
+3. March
+4. April
+5. May
+6. June
+7. july
+8. August
+9. Sept
+
+cut -b '1-3' month.txt
+output :
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+
+sort month.txt
+output: 
+1. jan
+2. Feb
+3. March
+4. April
+5. May
+6. June
+7. july
+8. August
+9. Sept
+
+sort -r month.txt
+output: 
+9. Sept
+8. August
+7. july
+6. June
+5. May
+4. April
+3. March
+2. Feb
+1. jan
+
+cat month.txt | tr [a-z] [A-Z]
+output: 
+1. JAN
+2. FEB
+3. MARCH
+4. APRIL
+5. MAY
+6. JUNE
+7. JULY
+8. AUGUST
+9. SEPT
+
+b) Pattern matching: grep: 
+grep 9. Sept month.txt
+output:
+month.txt:9. Sept
+
+c) Viewing parts of a file: head, tail
+head -5 month.txt
+output: 
+1. jan
+2. Feb
+3. March
+4. April
+5. May
+
+tail -5 month.txt
+output: 
+5. May
+6. June
+7. july
+8. August
+9. Sept
+
+2) Write and execute shell scripts for the following (Using the above commands).
+
+d) Display the names of all files whose names start with the word
+‘hello’.
+ls hello*
+hello.txt  hello_is.cpp  helloisthisyou.sh
+
+ls | grep hello
+output: 
+hello.txt
+hello_is.cpp
+helloisthisyou.sh
+
+e) Accept a file name and a pattern. Output whether the pattern exists in the
+file or not.
+code : 
+
+#!/bin/bash
+echo "Enter filename:"
+read filename
+echo "Enter the pattern:"
+read pattern
+if grep -q "$pattern" "$filename"; then
+echo "Yes, the pattern exists in the file."
+else
+echo "No, the pattern does not exist in the file."
+fi
+
+output: 
+Enter filename:
+month.txt
+Enter the pattern:
+Sept
+Yes, the pattern exists in the file.
+
+Enter filename:
+month.txt
+Enter the pattern:
+oct
+No, the pattern does not exist in the file.
+
+f) Accept a file name. Display its access privileges for all types of users.
+code:
+#!/bin/bash
+echo "entere a filename"
+read file
+ls -l "$file" | cut -d ' ' -f 1
+
+output: 
+entere a filename
+month.txt
+-rw-r--r--
+
+

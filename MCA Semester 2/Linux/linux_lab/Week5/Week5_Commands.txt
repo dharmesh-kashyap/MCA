@@ -1,0 +1,159 @@
+1) Process related Commands: Study the meaning / function of the following.
+a) Process identification: PID, getpid()
+
+code:
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include<sys/wait.h>
+int main()
+{
+pid_t pid1,n,pid;
+n = fork();
+if( n == 0 )
+{
+printf("hello this is a child process.\n");
+pid = getpid();
+printf("process id = %d\n",pid);
+}
+else if( n >=1 )
+{
+wait(NULL);
+printf("hello this is a parent process.\n");
+pid = getpid();
+printf("process id = %d\n",pid);
+}
+else
+{
+printf("Process creation failed\n");
+}
+return 0;
+}
+
+out: 
+hello this is a child process.
+process id = 119
+hello this is a parent process.
+process id = 118
+
+
+b) Background process: &
+
+code: 
+#include <stdio.h>
+#include <unistd.h>
+int main() {
+printf("Sleep for 5 seconds...\n");
+sleep(5); // Sleep for 5 seconds
+printf("Awake now!\n");
+return 0;
+}
+
+
+output:
+Sleep for 5 seconds...
+Awake now!
+
+c) Parent and child processes: fork(), sleep(), wait()
+
+
+2) Write and execute C programs for the following.
+a) Create a child process. Display different messages in the parent and child
+process. Also display their process ID.
+
+code: 
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include<sys/wait.h>
+
+int main() {
+    pid_t pid;
+    pid = fork();
+    
+    if (pid == 0) {
+        printf("This is the child process\n");
+        printf("Child process ID: %d\n", getpid());
+    } else {
+        // Wait for the first child to finish in the parent process
+        wait(NULL);
+        printf("This is the parent process\n");
+        printf("Parent process ID: %d\n", getpid());
+    }
+    
+    return 0;
+}
+
+output: 
+This is the child process
+Child process ID: 181
+This is the parent process
+Parent process ID: 180
+
+
+
+
+
+b) Accept an array of integers. Display the unsorted array in the parent process.
+Create a child process. Sort and display the sorted array in the child process.
+
+code:
+#include<stdio.h>
+#include<unistd.h>
+#include<sys/types.h>
+#include<sys/wait.h>
+int main() {
+int size;
+printf("Enter the size of the array: ");
+scanf("%d", &size);
+int arr[size];
+printf("Enter array values:\n");
+for (int i = 0; i < size; i++) {
+printf("Enter the value for element %d: ", i);
+scanf("%d", &arr[i]);
+}
+pid_t pid;
+pid = fork();
+if (pid == 0) {
+printf("Child Process - Sorting Array: ");
+// Use your sorting algorithm here (e.g., bubble sort, quicksort, etc.)
+// Just for demonstration, using a simple bubble sort
+for (int i = 0; i < size - 1; i++) {
+for (int j = 0; j < size - i - 1; j++) {
+if (arr[j] > arr[j + 1]) {
+// Swap elements if they are in the wrong order
+int temp = arr[j];
+arr[j] = arr[j + 1];
+arr[j + 1] = temp;
+}
+}
+}
+printf("Sorted Array in Child Process: ");
+for (int i = 0; i < size; i++) {
+printf("%d ", arr[i]);
+}
+printf("\n");
+} else {
+wait(NULL);
+printf("Array in Parent Process: ");
+for (int i = 0; i < size; i++) {
+printf("%d ", arr[i]);
+}
+printf("\n");
+printf("run 1 time\n");
+}
+return 0;
+}
+
+ 
+output: 
+Enter the size of the array: 5
+Enter array values:
+Enter the value for element 0: 5
+Enter the value for element 1: 3
+Enter the value for element 2: 4
+Enter the value for element 3: 2
+Enter the value for element 4: 1
+Child Process - Sorting Array: Sorted Array in Child Process: 1 2 3 4 5
+Array in Parent Process: 5 3 4 2 1
+run 1 time
