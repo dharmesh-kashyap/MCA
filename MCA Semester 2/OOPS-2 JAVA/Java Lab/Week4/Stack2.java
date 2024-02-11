@@ -57,6 +57,7 @@ public class Stack2 {
 
         System.out.println("Enter elements to push onto the stack:");
         for (int i = 0; i < size; i++) {
+            System.out.print("Enter the element: ");
             int element = scanner.nextInt();
             stack.push(element);
         }
@@ -67,7 +68,9 @@ public class Stack2 {
             System.out.println("\nChoose operation:");
             System.out.println("1. Push");
             System.out.println("2. Pop");
-            System.out.println("3. Exit");
+            System.out.println("3. Display Stack");
+            System.out.println("4. Exit");
+            System.out.print("Enter your choice: ");
 
             int choice = scanner.nextInt();
 
@@ -91,7 +94,10 @@ public class Stack2 {
                         System.out.println("Stack is empty. Cannot pop elements.");
                     }
                     break;
-                case 3:
+                case 3: 
+                    stack.displayStack();
+                    break;
+                case 4:
                     continueOperations = false;
                     break;
                 default:
