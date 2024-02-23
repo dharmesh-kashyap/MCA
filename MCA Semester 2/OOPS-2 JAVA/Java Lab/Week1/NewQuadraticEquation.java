@@ -29,8 +29,7 @@ public class NewQuadraticEquation {
             }
         } else {
             System.out.println("The roots are imaginary");
-        }
-        
+        } 
     }
 
 }

@@ -3,8 +3,9 @@ public class palindrome{
 
     public static void palindrome1(final String sh){
         String reversed = "";
-        for (int i = 0; i < sh.length(); i++) {
-            reversed = sh.charAt(i) + reversed;
+        for (int i = 0; i < sh.length(); i++){
+            reversed 
+            = sh.charAt(i) + reversed;
         }
 
         System.out.println("Reversed String: " + reversed);
