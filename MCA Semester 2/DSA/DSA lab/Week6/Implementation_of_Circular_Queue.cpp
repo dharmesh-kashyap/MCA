@@ -55,6 +55,10 @@ public:
             return 0;
         }
         int temp = arr[front];
+        if(front > rear){
+            front = -1;
+            rear = -1;
+        }
         front = (front + 1) % capacity;
         return temp;
     }
