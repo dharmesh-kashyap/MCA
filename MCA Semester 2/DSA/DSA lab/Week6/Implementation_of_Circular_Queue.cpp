@@ -70,7 +70,7 @@ public:
         int i = front;
         do
         {
-            cout << arr[i] << " ";
+            cout << arr[i] <<" ";
             i = (i + 1) % capacity;
         } while (i != (rear + 1) % capacity);
         cout << endl;

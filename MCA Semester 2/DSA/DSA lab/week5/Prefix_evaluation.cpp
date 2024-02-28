@@ -72,7 +72,7 @@ int evaluatePrefix(const string& prefix) {
 
     for (int i = 0; i < reversedprefix.length(); ++i) {
         char token = reversedprefix[i];
-        if (isdigit(token)) {
+        if (token >= '0' && token <= '9') {
             operandStack.push(token - '0'); // Convert char to int and push onto stack
         } else if (token == '+' || token == '-' || token == '*' || token == '/') {
             int operand1 = operandStack.peek();

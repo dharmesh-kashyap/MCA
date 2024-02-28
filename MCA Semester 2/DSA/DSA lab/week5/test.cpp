@@ -59,24 +59,19 @@ public:
     }
 };
 
-int evaluatePostfix(const string& postfixExpression) {
-    stack operandStack(postfixExpression.length());
-
-        for (int i = 0; i < postfixExpression.length(); i++)
-        {
-           char token = postfixExpression[i];
-        if (token >= '0' && token <= '9')
-        {
-            operandStack.push(token - 48); // Convert char to int and push onto stack
-        } 
-        else if (token == '+' || token == '-' || token == '*' || token == '/') {
-            int operand2 = operandStack.peek();
-            operandStack.pop();
-            int operand1 = operandStack.peek();
-            operandStack.pop();
-
-            int result;
-            switch (token) {
+int PostfixEvaluation(const string& postFixExpression){
+    stack S(postFixExpression.length());
+    for(int i = 0; i < postFixExpression.length(); i++){
+        char index = postFixExpression[i];
+        if( index >= '0' && index <= '9'){
+            S.push(index - 48);
+        }
+        else if(index == '+' || index == '-' ||index == '*' ||index == '/'){
+            
+            int operand2 = S.pop();
+            int operand1 = S.pop();
+            int result = 0;
+            switch(index) {
                 case '+':
                     result = operand1 + operand2;
                     break;
@@ -90,20 +85,16 @@ int evaluatePostfix(const string& postfixExpression) {
                     result = operand1 / operand2;
                     break;
             }
-            operandStack.push(result);
+            S.push(result);
         }
     }
-
-    return operandStack.peek();
+    return S.peek();
 }
-
-int main() {
-    string postfixExpression;
-    cout << "Enter postfix expression: ";
-    getline(cin, postfixExpression);
-
-    int result = evaluatePostfix(postfixExpression);
-    cout << "\nResult: " << result << endl;
-
+int main(){
+    cout<<"Enter the postfix Expression: ";
+    string postFixExpression;
+    getline(cin,postFixExpression);
+    int result = PostfixEvaluation(postFixExpression);
+    cout<<"\nThe evaluated postfix operation is: "<<result<<endl;
     return 0;
 }
