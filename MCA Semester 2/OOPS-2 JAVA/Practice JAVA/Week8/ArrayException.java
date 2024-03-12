@@ -4,7 +4,7 @@ public class ArrayException {
     public static void Division(int Arr1[], int Arr2[], int ind1, int ind2){
        
                int div =  Arr1[ind1]/Arr2[ind2]; 
-               System.out.println(div + "\n");           
+               System.out.println("The result is : " + div + "\n");           
     }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
