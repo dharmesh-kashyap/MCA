@@ -1,9 +1,4 @@
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.ListIterator;
-import java.util.Scanner;
-
+import java.util.*;
 public class itterartortring {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
