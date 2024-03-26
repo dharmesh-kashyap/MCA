@@ -90,13 +90,37 @@ public:
         cout << "Node with data " << x << " deleted." << endl;
     }
 
-    void display()
+    void displayForward()
     {
         Node *current_node = head;
+        cout << "Forward Display: ";
         while (current_node != nullptr)
         {
             cout << current_node->data << " -> ";
             current_node = current_node->next;
+        }
+        cout << "nullptr" << endl;
+    }
+
+    void displayBackward()
+    {
+        Node *current_node = head;
+        if (current_node == nullptr)
+        {
+            cout << "List is empty." << endl;
+            return;
+        }
+
+        while (current_node->next != nullptr)
+        {
+            current_node = current_node->next;
+        }
+
+        cout << "Backward Display: ";
+        while (current_node != nullptr)
+        {
+            cout << current_node->data << " -> ";
+            current_node = current_node->prev;
         }
         cout << "nullptr" << endl;
     }
@@ -109,7 +133,7 @@ int main()
     do
     {
         int choice;
-        cout << "\n 1. Insert a node in sorted order\n 2. Delete a node\n 3. Display nodes\n 4. Exit\n";
+        cout << "\n 1. Insert a node in sorted order\n 2. Delete a node\n 3. Display nodes (Forward)\n 4. Display nodes (Backward)\n 5. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
         switch (choice)
@@ -126,9 +150,12 @@ int main()
             l.deleteNode(d);
             break;
         case 3:
-            l.display();
+            l.displayForward();
             break;
         case 4:
+            l.displayBackward();
+            break;
+        case 5:
             cond = false;
             break;
         default:
