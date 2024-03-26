@@ -20,10 +20,10 @@ public class noostad{
         System.out.print("Enter th value: ");
         double x;
         x = Double.parseDouble(args[0]);
-        outer outer = new outer(x);
-        outer.display();
-        outer.inner inner = outer.new inner();
-        inner.Display();
+        outer Puter = new outer(x);
+        Puter.display();
+        outer.inner Pnner = Puter.new inner();
+        Pnner.Display();
         sc.close();
     }
 }

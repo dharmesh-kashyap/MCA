@@ -1,9 +1,7 @@
-import java.util.Scanner;
-import java.util.Vector;
-
+import java.util.*;
 public class VectorMenu {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
         Vector<Integer> oddIntegers = new Vector<>();
 
         for (int i = 1; i <= 10; i += 2) {
@@ -19,26 +17,26 @@ public class VectorMenu {
             System.out.println("4. Display contents");
             System.out.println("5. Exit");
             System.out.print("Enter your choice: ");
-            choice = scanner.nextInt();
+            choice = sc.nextInt();
 
             switch (choice) {
                 case 1:
                     System.out.print("Enter the element to insert: ");
-                    int element = scanner.nextInt();
+                    int element = sc.nextInt();
                     System.out.print("Enter the position to insert: ");
-                    int position = scanner.nextInt();
+                    int position = sc.nextInt();
                     oddIntegers.insertElementAt(element, position);
                     System.out.println("Element inserted successfully.");
                     break;
                 case 2:
                     System.out.print("Enter the element to insert at the end: ");
-                    int endElement = scanner.nextInt();
+                    int endElement = sc.nextInt();
                     oddIntegers.add(endElement);
                     System.out.println("Element inserted at the end successfully.");
                     break;
                 case 3:
                     System.out.print("Enter the position of element to delete: ");
-                    int deletePosition = scanner.nextInt();
+                    int deletePosition = sc.nextInt();
                     if (deletePosition >= 0 && deletePosition < oddIntegers.size()) {
                         oddIntegers.remove(deletePosition);
                         System.out.println("Element deleted successfully.");
@@ -61,6 +59,6 @@ public class VectorMenu {
             }
         } while (choice != 5);
 
-        scanner.close();
+        sc.close();
     }
 }
