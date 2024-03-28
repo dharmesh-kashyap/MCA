@@ -53,7 +53,7 @@ public:
         if (isEmpty())
         {
             cout << "Stack is empty. Cannot peek." << endl;
-            return -1; // Return a default value indicating empty stack
+            return -1; 
         }
 
         return top->data;
