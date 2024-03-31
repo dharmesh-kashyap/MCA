@@ -12,3 +12,7 @@ Study material :-<br>
 
 shameem DA ppt:- <br>
 [https://learnermanipal-my.sharepoint.com/:f:/g/personal/ss_shameem_manipal_edu/EujrhsTfqi5GkCm8YlVjhNkBba_2LsY8IiNhMS2u197FvQ?e=Cv69c9]
+
+
+RMTC Research Paper :-<br>
+[https://drive.google.com/drive/folders/15aAM3rNoxv_7C5qqIYHXR93kV1hJ4Q9O?usp=sharing]
