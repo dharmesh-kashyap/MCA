@@ -28,7 +28,7 @@ public class CalculatorApp2 {
             public void actionPerformed(ActionEvent e) {
                 performCalculation();
             }
-        });
+        }); 
 
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(5, 2));

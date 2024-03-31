@@ -46,7 +46,7 @@ public class LoginApp {
         loginPanel.add(usernameField);
         loginPanel.add(passwordLabel);
         loginPanel.add(passwordField);
-        loginPanel.add(new JLabel()); // Placeholder
+        loginPanel.add(new JLabel());
         loginPanel.add(loginButton);
 
         loginFrame.add(loginPanel);
@@ -54,8 +54,7 @@ public class LoginApp {
     }
 
     private boolean authenticateUser(String username, String password) {
-        // Perform authentication logic here (e.g., check username and password against a database)
-        // For simplicity, a hardcoded check is used here
+        
         return username.equals("admin") && password.equals("password");
     }
 

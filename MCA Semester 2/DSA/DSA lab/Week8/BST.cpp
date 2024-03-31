@@ -80,7 +80,6 @@ public:
     {
         root = insertRecursive(root, value);
     }
-
     void preorderTraversal()
     {
         cout << "Preorder Traversal: ";
