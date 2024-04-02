@@ -1,111 +1,86 @@
-import java.io.*;
-import java.util.Scanner;
+import java.util.*;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Serializable;
 
-class Customer {
-    private String name;
-    private int age;
-    private long accountNumber;
-    private double balance;
+class Bank implements Serializable {
+     String name;
+     int age;
+     int balance;
+     int account;
 
-    public Customer(String name, int age, long accountNumber, double balance) {
-        this.name = name;
-        this.age = age;
-        this.accountNumber = accountNumber;
-        this.balance = balance;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public long getAccountNumber() {
-        return accountNumber;
-    }
-
-    public double getBalance() {
-        return balance;
-    }
-
-    // Override toString method to format customer data as CSV
-    @Override
-    public String toString() {
-        return name + "," + age + "," + accountNumber + "," + balance;
+    public Bank(String n,int ag,int bal,int acc) {
+        name = n;
+        age = ag;
+        balance = bal;
+        account = acc;
     }
 }
 
-public class Bank {
+public class BANK {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner sc = new Scanner(System.in);
 
-        System.out.print("Enter the number of customers: ");
-        int numCustomers = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
+        ArrayList<Bank> employeeList = new ArrayList<>();
+        try {
+            FileWriter inputFileWriter = new FileWriter("employee.txt");
 
-        Customer[] customers = new Customer[numCustomers];
-        for (int i = 0; i < numCustomers; i++) {
-            System.out.println("Enter details for customer " + (i + 1) + ":");
-            System.out.print("Name: ");
-            String name = scanner.nextLine();
+                System.out.print("Enter a string (or 'exit' to finish): ");
+                
+                int choice;
+                do {
+                    System.out.println("\nMenu:");
+                    System.out.println("1. Insert an employee");
+                    System.out.println("2. Display employee details");
+                    System.out.println("3. Exit");
+                    System.out.print("Enter your choice: ");
+                    choice = sc.nextInt();
+                    switch (choice) {
+                    case 1:        
+                    System.out.print("Enter employee name: ");
+                    String name = sc.next();
+                    System.out.print("Enter employee age: ");
+                    int age = sc.nextInt();
+                    System.out.print("Enter employee Account: ");
+                    int account = sc.nextInt();
+                    System.out.print("Enter employee Balance: ");
+                    int balance = sc.nextInt();
 
-            System.out.print("Age: ");
-            int age = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+                    employeeList.add(new Bank(name, age, account, balance));
+                    break;
+                        
+                    case 2:
+                    System.out.println("Employee details:");
+                    for (Bank emp : employeeList) {
+                        System.out.println(
+                                " Name: " + emp.name +
+                                ", Age: " + emp.age +
+                                ", Account: " + emp.account +
+                                ", Balance: " + emp.balance);
+                    }
+                    break;
+                    case 3:
+                    for (Bank emp : employeeList) {
+                        inputFileWriter.write(
+                                " Name: " + emp.name +
+                                        ", Age: " + emp.age +
+                                        ", Account: " + emp.account +
+                                        ", Balance: " + emp.balance + "\n");
+                    }
+                        System.out.println("Exiting the program. Goodbye!");
+                        break;
+                    default:
+                        System.out.println("Invalid choice. Please select a valid option.");
+                    }
 
-            System.out.print("Account Number: ");
-            long accountNumber = scanner.nextLong();
-            scanner.nextLine(); // Consume newline
+                    }while(choice != 3);
+    
+                    inputFileWriter.close();
 
-            System.out.print("Balance: ");
-            double balance = scanner.nextDouble();
-            scanner.nextLine(); // Consume newline
-
-            customers[i] = new Customer(name, age, accountNumber, balance);
-        }
-
-        scanner.close();
-
-        // Write customer data to CSV file
-        writeCustomersToCSV(customers, "account_info.csv");
-
-        // Read and display customer data from CSV file
-        readAndDisplayCustomersFromCSV("account_info.csv");
-    }
-
-    private static void writeCustomersToCSV(Customer[] customers, String fileName) {
-        try (PrintWriter writer = new PrintWriter(fileName)) {
-            for (Customer customer : customers) {
-                writer.println(customer.toString()); // Write customer data as CSV
-            }
-            System.out.println("Customer data written to CSV file: " + fileName);
         } catch (IOException e) {
-            System.err.println("Error occurred while writing customer data to CSV: " + e.getMessage());
+            System.out.println("An error occurred.");
+            e.printStackTrace();
         }
-    }
-
-    private static void readAndDisplayCustomersFromCSV(String fileName) {
-        try (Scanner scanner = new Scanner(new File(fileName))) {
-            System.out.println("Reading customer data from CSV file: " + fileName);
-            while (scanner.hasNextLine()) {
-                String line = scanner.nextLine();
-                String[] parts = line.split(",");
-                if (parts.length == 4) {
-                    String name = parts[0];
-                    int age = Integer.parseInt(parts[1]);
-                    long accountNumber = Long.parseLong(parts[2]);
-                    double balance = Double.parseDouble(parts[3]);
-                    System.out.println("Name: " + name);
-                    System.out.println("Age: " + age);
-                    System.out.println("Account Number: " + accountNumber);
-                    System.out.println("Balance: " + balance);
-                    System.out.println();
-                }
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("CSV file not found: " + e.getMessage());
-        }
-    }
+            sc.close();
+   }
 }

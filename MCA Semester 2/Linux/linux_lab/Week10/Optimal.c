@@ -17,8 +17,8 @@ int main() {
     }
     
     for(i = 0; i < frames; i++) {
-        frame[i] = -1;  // Initialize all frames to -1 (empty)
-        nextUse[i] = 0;  // Initialize next use to 0
+        frame[i] = -1;   
+        nextUse[i] = 0;  
     }
     
     printf("\nReference String\tPage Frames\tPage Faults\n");
