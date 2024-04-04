@@ -1,5 +1,5 @@
 #include <iostream>
-#include <algorithm> // for std::sort
+#include <algorithm> 
 using namespace std;
 
 int binarySearch(int arr[], int left, int right, int key) {
