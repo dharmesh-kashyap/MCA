@@ -1,15 +1,12 @@
 #include <iostream>
 using namespace std;
 
-// Function to perform sequential search
 int sequentialSearch(int arr[], int n, int key) {
     for (int i = 0; i < n; i++) {
         if (arr[i] == key) {
-            // Element found, return its index
             return i;
         }
     }
-    // Element not found, return -1
     return -1;
 }
 
@@ -28,7 +25,6 @@ int main() {
     cout << "Enter the element to search for: ";
     cin >> key;
 
-    // Perform sequential search
     int index = sequentialSearch(arr, n, key);
 
     if (index != -1) {
