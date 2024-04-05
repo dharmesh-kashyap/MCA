@@ -34,7 +34,7 @@ int main() {
     cout << "Enter the element to search for: ";
     cin >> key;
 
-    int index = binarySearchRecursive(arr, 0, n - 1, key);
+     int index = binarySearchRecursive(arr, 0, n - 1, key);
 
     if (index != -1) {
         cout << "Element found at index " << index << endl;
