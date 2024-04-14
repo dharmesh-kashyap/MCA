@@ -3,6 +3,12 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
+/**
+ * The QuizApp class represents an application for conducting a multiple-choice quiz.
+ * It provides a login page for users to enter their credentials and access the quiz.
+ * The quiz consists of multiple questions with options, and the user's score is calculated based on their answers.
+ * The score is then stored in a database.
+ */
 public class QuizApp extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
@@ -14,10 +20,14 @@ public class QuizApp extends JFrame {
             "Java Generics allow type parameterization, providing compile-time type safety"
     };
 
+    /**
+     * Constructs a QuizApp object.
+     * Initializes the GUI components and sets up the login page.
+     */
     public QuizApp() {
         setTitle("Admission Entrance Test");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 200); // Adjusted size to fit components
+        setSize(400, 200); 
         setLocationRelativeTo(null);
 
         JLabel usernameLabel = new JLabel("Username:");
@@ -40,7 +50,7 @@ public class QuizApp extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 String username = usernameField.getText();
                 String password = new String(passwordField.getPassword());
-                // Perform authentication logic here
+
                 if (username.equals("Dharmesh") && password.equals("0133")) {
                     openMCQPage();
                 } else {
@@ -53,9 +63,14 @@ public class QuizApp extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Opens the MCQ page for the quiz.
+     * Constructs the GUI components for the MCQ page and sets up the questions and options.
+     * Calculates the user's score and stores it in the database.
+     */
     private void openMCQPage() {
         JFrame mcqFrame = new JFrame("MCQ Page");
-        mcqFrame.setSize(1000, 700); // Adjusted size to fit components
+        mcqFrame.setSize(1000, 700); 
         mcqFrame.setLocationRelativeTo(null);
         mcqFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -65,7 +80,7 @@ public class QuizApp extends JFrame {
         JLabel titleLabel = new JLabel("Multiple-Choice Questions");
         mcqPanel.add(titleLabel);
 
-        // Add complex Java questions
+        // Add questions and options to the MCQ panel
         addMCQ(mcqPanel,
                 "Question 1: What is the difference between Serializable and Externalizable interfaces in Java?",
                 new String[] {
@@ -123,6 +138,12 @@ public class QuizApp extends JFrame {
         setVisible(false);
     }
 
+    /**
+     * Adds a multiple-choice question to the MCQ panel.
+     * The panel to add the question to.
+     * The question to be displayed.
+     * The options for the question.
+     */
     private void addMCQ(JPanel panel, String question, String[] options) {
         JLabel questionLabel = new JLabel(question);
         panel.add(questionLabel);
@@ -134,6 +155,11 @@ public class QuizApp extends JFrame {
         }
     }
 
+    /**
+     * Calculates the user's score based on their selected answers.
+     * The panel containing the MCQ questions and options.
+     * return The user's score.
+     */
     private int calculateScore(JPanel panel) {
         int score = 0;
         Component[] components = panel.getComponents();
@@ -141,13 +167,18 @@ public class QuizApp extends JFrame {
             if (component instanceof JRadioButton) {
                 JRadioButton radioButton = (JRadioButton) component;
                 if (radioButton.isSelected() && isCorrectAnswer(radioButton.getText())) {
-                    score++; // Increment score for correct answer
+                    score++; 
                 }
             }
         }
         return score;
     }
 
+    /**
+     * Checks if the selected answer is correct.
+     * selectedAnswer The selected answer.
+     * return true if the selected answer is correct, false otherwise.
+     */
     private boolean isCorrectAnswer(String selectedAnswer) {
         for (String correctAnswer : correctAnswers) {
             if (selectedAnswer.equals(correctAnswer)) {
@@ -157,6 +188,9 @@ public class QuizApp extends JFrame {
         return false;
     }
 
+    /**
+     * Stores the user's score in the database.
+     */
     private void storeScoreInDatabase(String username, int score) {
         String url = "jdbc:mysql://localhost:3306/student_info";
         String user = "root";
@@ -183,6 +217,9 @@ public class QuizApp extends JFrame {
         }
     }
 
+    /**
+     * The main method that starts the QuizApp application.
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
