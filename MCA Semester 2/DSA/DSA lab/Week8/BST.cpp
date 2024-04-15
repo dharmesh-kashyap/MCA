@@ -32,7 +32,7 @@ private:
         {
             rootNode->left = insertRecursive(rootNode->left, value);
         }
-        else if (value > rootNode->data)
+        else if (value >= rootNode->data)
         {
             rootNode->right = insertRecursive(rootNode->right, value);
         }

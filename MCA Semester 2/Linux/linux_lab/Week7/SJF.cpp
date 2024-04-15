@@ -40,7 +40,7 @@ int main() {
         }
     }
 
-    int currentTime = 0;
+    int currentTime = 0;     
 for (int i = 0; i < n; i++) {
     if (currentTime < at[i]) {
         currentTime = at[i]; 

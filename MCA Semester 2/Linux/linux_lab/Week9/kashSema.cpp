@@ -10,8 +10,8 @@ void producer()
         --mutex;
         ++full;
         --empty;
-        x++;
         printf("\nProducer produced item %d",x);
+        x++;
         ++mutex;
 }
 
