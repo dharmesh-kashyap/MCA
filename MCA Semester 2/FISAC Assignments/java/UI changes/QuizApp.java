@@ -3,41 +3,41 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
-/**
- *The QuizApp class represents an application for conducting a multiple-choice quiz.
- * It provides a login page for users to enter their credentials and access the quiz.
- * The quiz consists of multiple questions with options, and the user's score is calculated based on their answers.
- * The score is then stored in a database.
- */
 public class QuizApp extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private String[] correctAnswers = {
-            "Serializable is a marker interface, Externalizable provides more control over serialization",
-            "Java Reflection allows inspection and manipulation of class metadata at runtime",
-            "ArrayList uses dynamic arrays, LinkedList uses linked nodes",
-            "Java uses threads to achieve multitasking, synchronization is used to control access to shared resources",
-            "Java Generics allow type parameterization, providing compile-time type safety"
+            "Game development",
+            "Bytecode and JVM",
+            "By using classes and objects",
+            "Within classes",
+            "Declared with data types"
     };
 
-    /**
-     * Constructs a QuizApp object.
-     * Initializes the GUI components and sets up the login page.
-     */
     public QuizApp() {
         setTitle("Admission Entrance Test");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 200); 
+        setSize(400, 200);
         setLocationRelativeTo(null);
+
+        JLabel titleLabel = new JLabel("Welcome to the Java Quiz");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
+        titleLabel.setForeground(Color.BLUE);
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        add(titleLabel, BorderLayout.NORTH);
+
+        JPanel loginPanel = new JPanel();
+        loginPanel.setLayout(new GridLayout(3, 2));
+        loginPanel.setBackground(Color.LIGHT_GRAY);
 
         JLabel usernameLabel = new JLabel("Username:");
         JLabel passwordLabel = new JLabel("Password:");
         usernameField = new JTextField(20);
         passwordField = new JPasswordField(20);
         JButton loginButton = new JButton("Login");
+        loginButton.setBackground(Color.GREEN);
+        loginButton.setForeground(Color.WHITE);
 
-        JPanel loginPanel = new JPanel();
-        loginPanel.setLayout(new GridLayout(3, 2));
         loginPanel.add(usernameLabel);
         loginPanel.add(usernameField);
         loginPanel.add(passwordLabel);
@@ -45,13 +45,15 @@ public class QuizApp extends JFrame {
         loginPanel.add(new JLabel());
         loginPanel.add(loginButton);
 
+        add(loginPanel, BorderLayout.CENTER);
+
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String username = usernameField.getText();
                 String password = new String(passwordField.getPassword());
 
-                if (username.equals("Lalit") && password.equals("4562")) {
+                if (username.equals("JavaUser") && password.equals("1234")) {
                     openMCQPage();
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid credentials. Try again.");
@@ -59,69 +61,67 @@ public class QuizApp extends JFrame {
             }
         });
 
-        add(loginPanel);
         setVisible(true);
     }
 
-    /**
-     * Opens the MCQ page for the quiz.
-     * Constructs the GUI components for the MCQ page and sets up the questions and options.
-     * Calculates the user's score and stores it in the database.
-     */
     private void openMCQPage() {
-        JFrame mcqFrame = new JFrame("MCQ Page");
-        mcqFrame.setSize(1000, 700); 
+        JFrame mcqFrame = new JFrame("Java Quiz");
+        mcqFrame.setSize(700, 500);
         mcqFrame.setLocationRelativeTo(null);
         mcqFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel mcqPanel = new JPanel();
         mcqPanel.setLayout(new BoxLayout(mcqPanel, BoxLayout.Y_AXIS));
 
-        JLabel titleLabel = new JLabel("Multiple-Choice Questions");
+        JLabel titleLabel = new JLabel("Simple Java Quiz");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
+        titleLabel.setForeground(Color.BLUE);
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mcqPanel.add(titleLabel);
 
-        // Add questions and options to the MCQ panel
         addMCQ(mcqPanel,
-                "Question 1: What is the difference between Serializable and Externalizable interfaces in Java?",
+                "Question 1: What is Java primarily used for?",
                 new String[] {
-                        "Serializable is for network communication, Externalizable is for file I/O",
-                        "Serializable is a marker interface, Externalizable provides more control over serialization",
-                        "Serializable is for multithreaded applications, Externalizable is for single-threaded applications",
-                        "Serializable uses default serialization, Externalizable uses custom serialization" });
+                        "Web development",
+                        "Game development",
+                        "Scripting language",
+                        "Mobile apps" });
 
-        addMCQ(mcqPanel, "Question 2: Explain the concept of Java Reflection API and its uses.",
+        addMCQ(mcqPanel, "Question 2: What makes Java platform-independent?",
                 new String[] {
-                        "Java Reflection is used for creating dynamic web pages",
-                        "Java Reflection is a design pattern in Java programming",
-                        "Java Reflection allows inspection and manipulation of class metadata at runtime",
-                        "Java Reflection is used for database connections" });
+                        "Dynamic typing",
+                        "Open-source nature",
+                        "Platform-dependent libraries",
+                        "Bytecode and JVM" });
 
-        addMCQ(mcqPanel, "Question 3: What are the differences between ArrayList and LinkedList in Java?",
+        addMCQ(mcqPanel, "Question 3: How does Java handle web development?",
                 new String[] {
-                        "ArrayList is faster for adding elements, LinkedList is faster for removing elements",
-                        "ArrayList is synchronized, LinkedList is not synchronized",
-                        "ArrayList allows null elements, LinkedList does not allow null elements",
-                        "ArrayList uses dynamic arrays, LinkedList uses linked nodes" });
+                        "By using classes and objects",
+                        "By interpreting HTML code",
+                        "By using Python scripts",
+                        "By compiling web pages" });
 
-        addMCQ(mcqPanel, "Question 4: How does Java handle multithreading and synchronization?",
+        addMCQ(mcqPanel, "Question 4: Where are Java methods defined?",
                 new String[] {
-                        "Java uses threads to achieve multitasking, synchronization is used to control access to shared resources",
-                        "Java creates multiple instances of classes to achieve multitasking",
-                        "Java uses separate processes for each task, synchronization is automatic",
-                        "Java relies on the operating system for multithreading" });
+                        "Within classes",
+                        "Outside classes",
+                        "Inheritance hierarchy",
+                        "Database tables" });
 
-        addMCQ(mcqPanel, "Question 5: Explain the concept of Java Generics and its advantages.",
+        addMCQ(mcqPanel, "Question 5: What is a characteristic of Java variables?",
                 new String[] {
-                        "Java Generics are used for graphical user interface (GUI) development",
-                        "Java Generics are similar to exception handling in Java",
-                        "Java Generics allow type parameterization, providing compile-time type safety",
-                        "Java Generics improve performance of Java applications" });
+                        "Declared with data types",
+                        "Dynamically typed",
+                        "Unlimited size",
+                        "Constant values" });
 
         JScrollPane scrollPane = new JScrollPane(mcqPanel);
         mcqFrame.add(scrollPane);
 
         JButton submitButton = new JButton("Submit");
         submitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        submitButton.setBackground(Color.GREEN);
+        submitButton.setForeground(Color.WHITE);
         mcqPanel.add(submitButton);
 
         submitButton.addActionListener(new ActionListener() {
@@ -138,28 +138,19 @@ public class QuizApp extends JFrame {
         setVisible(false);
     }
 
-    /**
-     * Adds a multiple-choice question to the MCQ panel.
-     * The panel to add the question to.
-     * The question to be displayed.
-     * The options for the question.
-     */
     private void addMCQ(JPanel panel, String question, String[] options) {
         JLabel questionLabel = new JLabel(question);
+        questionLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         panel.add(questionLabel);
         ButtonGroup group = new ButtonGroup();
         for (String option : options) {
             JRadioButton radioButton = new JRadioButton(option);
+            radioButton.setFont(new Font("Arial", Font.PLAIN, 12));
             group.add(radioButton);
             panel.add(radioButton);
         }
     }
 
-    /**
-     * Calculates the user's score based on their selected answers.
-     * The panel containing the MCQ questions and options.
-     * return The user's score.
-     */
     private int calculateScore(JPanel panel) {
         int score = 0;
         Component[] components = panel.getComponents();
@@ -167,18 +158,13 @@ public class QuizApp extends JFrame {
             if (component instanceof JRadioButton) {
                 JRadioButton radioButton = (JRadioButton) component;
                 if (radioButton.isSelected() && isCorrectAnswer(radioButton.getText())) {
-                    score++; 
+                    score++;
                 }
             }
         }
         return score;
     }
 
-    /**
-     * Checks if the selected answer is correct.
-     * selectedAnswer The selected answer.
-     * return true if the selected answer is correct, false otherwise.
-     */
     private boolean isCorrectAnswer(String selectedAnswer) {
         for (String correctAnswer : correctAnswers) {
             if (selectedAnswer.equals(correctAnswer)) {
@@ -188,13 +174,10 @@ public class QuizApp extends JFrame {
         return false;
     }
 
-    /**
-     * Stores the user's score in the database.
-     */
     private void storeScoreInDatabase(String username, int score) {
-        String url = "jdbc:mysql://localhost:3306/student_info";
+        String url = "jdbc:mysql://localhost:3306/studentMarks";
         String user = "root";
-        String password = "Dkashyap@467";
+        String password = "Deeraj@8898";
         try {
             Connection connection = DriverManager.getConnection(url, user, password);
             String checkTableExistsSQL = "SHOW TABLES LIKE 'scores'";
@@ -216,10 +199,6 @@ public class QuizApp extends JFrame {
             e.printStackTrace();
         }
     }
-
-    /**
-     * The main method that starts the QuizApp application.
-     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
