@@ -51,7 +51,7 @@ public class QuizApp extends JFrame {
                 String username = usernameField.getText();
                 String password = new String(passwordField.getPassword());
 
-                if (username.equals("Lalit") && password.equals("4562")) {
+                if (username.equals("Dharmesh") && password.equals("4562")) {
                     openMCQPage();
                 } else {
                     JOptionPane.showMessageDialog(null, "Invalid credentials. Try again.");
