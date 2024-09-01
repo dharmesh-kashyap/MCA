@@ -1,6 +1,9 @@
 # MCA
 All MCA required files here at one place!
 
+MCA Semester 3 theory material<br>
+[https://drive.google.com/drive/folders/1-1tvIAq2kyl6VBCyAN75YGjhGS7Vr9w5?usp=sharing]
+
 
 Given by Shameem Java slides:-<br>
 [https://learnermanipal-my.sharepoint.com/:f:/g/personal/ss_shameem_manipal_edu/Es7D3sUnI4VJl31PJN0Cgh8BTmleuW7QA-UsluPSwUmz0A?e=gJJeFd]
