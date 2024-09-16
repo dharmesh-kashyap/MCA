@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">GS19APP</string>
+    <string name="addbtn">Add</string>
+    <string name="tv3Text">Enter number 1</string>
+    <string name="tv4Text">Enter number 2</string>
+    <string name="t1hint">Enter Name</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="sports">Sports</string>
+    <string name="art">Art</string>
+    <string name="Socialwork">Social Work</string>
+</resources>
