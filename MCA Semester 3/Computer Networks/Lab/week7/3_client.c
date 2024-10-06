@@ -3,43 +3,71 @@
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
+#include <sys/socket.h>
 
-#define PORT 5555
-#define BUFFER_SIZE 1024
+#define PORT 12345
+#define BUF_SIZE 1024
 
 int main() {
-    int sock;
+    int client_sock;
     struct sockaddr_in server_addr;
-    char buffer[BUFFER_SIZE];
-    double a, b, c;
+    socklen_t addr_len = sizeof(server_addr);
+    char file_name[BUF_SIZE], buffer[BUF_SIZE];
+    FILE *new_file;
 
-    sock = socket(AF_INET, SOCK_STREAM, 0);
-    if (sock == -1) {
-        perror("Failed to create socket");
+    // Create UDP socket
+    client_sock = socket(AF_INET, SOCK_DGRAM, 0);
+    if (client_sock < 0) {
+        perror("Socket creation failed");
         exit(EXIT_FAILURE);
     }
 
+    // Initialize server address structure
+    memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
+    server_addr.sin_addr.s_addr = INADDR_ANY; // Use localhost or server IP
     server_addr.sin_port = htons(PORT);
-    server_addr.sin_addr.s_addr = inet_addr("127.0.0.1");
 
-    if (connect(sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1) {
-        perror("Connection failed");
-        close(sock);
+    // Get file name from the user
+    printf("Enter the file name to copy from the server: ");
+    fgets(file_name, BUF_SIZE, stdin);
+
+    // Send file name to server
+    sendto(client_sock, file_name, strlen(file_name), 0, (struct sockaddr *)&server_addr, addr_len);
+
+    // Open a new file to write the received content
+    new_file = fopen("copied_file.txt", "w");
+    if (!new_file) {
+        perror("File creation failed");
+        close(client_sock);
         exit(EXIT_FAILURE);
     }
 
-    printf("Enter the coefficients a, b, c of the quadratic equation (ax^2 + bx + c = 0): ");
-    scanf("%lf %lf %lf", &a, &b, &c);
+    // Receive data from the server and write to the new file
+    while (1) {
+        int bytes_received = recvfrom(client_sock, buffer, BUF_SIZE, 0, (struct sockaddr *)&server_addr, &addr_len);
+        buffer[bytes_received] = '\0';  // Null-terminate the buffer
 
-    // Send the coefficients to the server
-    sprintf(buffer, "%.2lf %.2lf %.2lf", a, b, c);
-    send(sock, buffer, strlen(buffer), 0);
+        // Check for file-not-found message
+        if (strcmp(buffer, "file-not-found") == 0) {
+            printf("File not found on the server.\n");
+            break;
+        }
 
-    // Receive and print the result from the server
-    recv(sock, buffer, sizeof(buffer), 0);
-    printf("Server response: %s\n", buffer);
+        // Check for EOF marker
+        if (strcmp(buffer, "EOF") == 0) {
+            printf("File copied successfully.\n");
+            break;
+        }
 
-    close(sock);
+        // Write the received data to the new file
+        fputs(buffer, new_file);
+        printf("Received: %s\n", buffer);
+    }
+
+    // Clean up
+    fclose(new_file);
+    close(client_sock);
+
     return 0;
 }

@@ -9,96 +9,71 @@
 #include <string.h>
 #include <unistd.h>
 #include <arpa/inet.h>
-#include <pthread.h>
-#include <math.h>
+#include <sys/socket.h>
+#include <fcntl.h>
 
-#define PORT 5555
-#define BUFFER_SIZE 1024
+#define PORT 12345
+#define BUF_SIZE 1024
 
-// Function to calculate roots of quadratic equation
-void calculate_roots(double a, double b, double c, char *result) {
-    double discriminant, root1, root2, realPart, imagPart;
+void handle_client(int sock, struct sockaddr_in *client_addr, socklen_t addr_len) {
+    char file_name[BUF_SIZE], buffer[BUF_SIZE];
+    int file_desc, bytes_read;
 
-    discriminant = b * b - 4 * a * c;
+    // Receive the file name from the client
+    recvfrom(sock, file_name, BUF_SIZE, 0, (struct sockaddr *)client_addr, &addr_len);
+    file_name[strcspn(file_name, "\n")] = 0; // Remove newline character if present
 
-    if (discriminant > 0) {
-        root1 = (-b + sqrt(discriminant)) / (2 * a);
-        root2 = (-b - sqrt(discriminant)) / (2 * a);
-        sprintf(result, "Roots are real and distinct: Root1 = %.2f, Root2 = %.2f", root1, root2);
-    } else if (discriminant == 0) {
-        root1 = -b / (2 * a);
-        sprintf(result, "Roots are real and equal: Root1 = Root2 = %.2f", root1);
-    } else {
-        realPart = -b / (2 * a);
-        imagPart = sqrt(-discriminant) / (2 * a);
-        sprintf(result, "Roots are complex: Root1 = %.2f + %.2fi, Root2 = %.2f - %.2fi", 
-                realPart, imagPart, realPart, imagPart);
+    // Check if file exists
+    file_desc = open(file_name, O_RDONLY);
+    if (file_desc == -1) {
+        // File not found, send "file-not-found" message
+        sendto(sock, "file-not-found", strlen("file-not-found"), 0, (struct sockaddr *)client_addr, addr_len);
+        return;
     }
-}
 
-void *handle_client(void *client_socket) {
-    int sock = *(int *)client_socket;
-    double a, b, c;
-    char buffer[BUFFER_SIZE], result[BUFFER_SIZE];
+    // Read file 10 characters at a time and send to client
+    while ((bytes_read = read(file_desc, buffer, 10)) > 0) {
+        buffer[bytes_read] = '\0';  // Null-terminate the buffer
+        sendto(sock, buffer, bytes_read, 0, (struct sockaddr *)client_addr, addr_len);
+    }
 
-    // Receive the coefficients from the client
-    recv(sock, buffer, sizeof(buffer), 0);
-    sscanf(buffer, "%lf %lf %lf", &a, &b, &c);
-    printf("Received coefficients from client: a = %.2f, b = %.2f, c = %.2f\n", a, b, c);
-
-    // Calculate the roots of the quadratic equation
-    calculate_roots(a, b, c, result);
-
-    // Send the result to the client
-    send(sock, result, strlen(result), 0);
-
-    close(sock);
-    free(client_socket);
-    return NULL;
+    // Send EOF to signal the end of file
+    sendto(sock, "EOF", strlen("EOF"), 0, (struct sockaddr *)client_addr, addr_len);
+    close(file_desc);
 }
 
 int main() {
-    int server_socket, new_socket;
+    int server_sock;
     struct sockaddr_in server_addr, client_addr;
     socklen_t addr_len = sizeof(client_addr);
-    pthread_t tid;
 
-    server_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_socket == -1) {
-        perror("Failed to create socket");
+    // Create UDP socket
+    server_sock = socket(AF_INET, SOCK_DGRAM, 0);
+    if (server_sock < 0) {
+        perror("Socket creation failed");
         exit(EXIT_FAILURE);
     }
 
+    // Initialize server address structure
+    memset(&server_addr, 0, sizeof(server_addr));
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
     server_addr.sin_port = htons(PORT);
 
-    if (bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1) {
-        perror("Binding failed");
-        close(server_socket);
+    // Bind the socket to the server address
+    if (bind(server_sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+        perror("Bind failed");
+        close(server_sock);
         exit(EXIT_FAILURE);
     }
 
-    if (listen(server_socket, 5) == -1) {
-        perror("Listening failed");
-        close(server_socket);
-        exit(EXIT_FAILURE);
-    }
+    printf("Server is ready and waiting for requests...\n");
 
-    printf("Server started, waiting for connections...\n");
-
+    // Handle incoming client requests
     while (1) {
-        new_socket = accept(server_socket, (struct sockaddr *)&client_addr, &addr_len);
-        if (new_socket == -1) {
-            perror("Accept failed");
-            continue;
-        }
-
-        int *client_sock_ptr = malloc(sizeof(int));
-        *client_sock_ptr = new_socket;
-        pthread_create(&tid, NULL, handle_client, client_sock_ptr);
+        handle_client(server_sock, &client_addr, addr_len);
     }
 
-    close(server_socket);
+    close(server_sock);
     return 0;
 }
