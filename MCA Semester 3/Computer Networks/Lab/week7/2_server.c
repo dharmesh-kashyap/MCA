@@ -1,3 +1,7 @@
+// 2. Write a client-server socket program using UDP. Client accepts an IP address and sends to server. 
+// Server receives IP address and displays it. Server process the IP address to identify the class of IP address (A, B, C, D, E). 
+// Server sends class and default mask to the client via socket. Client displays the result.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

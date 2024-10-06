@@ -1,3 +1,6 @@
+// Socket Programming-UDP
+// 1. Write a client-server chat socket program using UDP protocol to chat in infinite loop until client ends the chat session.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

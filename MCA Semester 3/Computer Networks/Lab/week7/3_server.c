@@ -1,3 +1,9 @@
+// 3. Write a client-server socket program using UDP to copy the content of a file existing at server to the client. 
+// Client accepts file name and sends to the server. 
+// Server reads 10 characters at a time from the file and sends to client. 
+// Client displays the data received and writes to another local file until entire file at server is copied to client’s new local file. 
+// If file name doesn’t exist at the server, server sends “file-no found” message to the client and client ends the communication.
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
