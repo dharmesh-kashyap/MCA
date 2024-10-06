@@ -1,6 +1,7 @@
-// 2. Write a client-server socket program using UDP. Client accepts an IP address and sends to server. 
-// Server receives IP address and displays it. Server process the IP address to identify the class of IP address (A, B, C, D, E). 
-// Server sends class and default mask to the client via socket. Client displays the result.
+// 2. Write a multi client-server socket program to authenticate the username and password entered by the user at client.
+// Assume server has a file called user.txt containing username and password stored per line and separated a comma and ended by semicolon. 
+// Display ‘Successful login’ or ‘login Denied’ message to the respective client.
+// Example: userABC, user123; similarly, next record in the next line.
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,98 +10,114 @@
 #include <arpa/inet.h>
 #include <pthread.h>
 
-#define PORT 5555
-#define BUFFER_SIZE 1024
+#define PORT 12345
+#define BUF_SIZE 1024
+#define MAX_CLIENTS 5
 
-// Function to determine the class and subnet mask of an IP address
-void get_ip_class_and_mask(const char *ip, char *class, char *mask) {
-    unsigned int first_octet;
-    sscanf(ip, "%u", &first_octet);
-
-    if (first_octet >= 1 && first_octet <= 126) {
-        strcpy(class, "A");
-        strcpy(mask, "255.0.0.0");
-    } else if (first_octet >= 128 && first_octet <= 191) {
-        strcpy(class, "B");
-        strcpy(mask, "255.255.0.0");
-    } else if (first_octet >= 192 && first_octet <= 223) {
-        strcpy(class, "C");
-        strcpy(mask, "255.255.255.0");
-    } else if (first_octet >= 224 && first_octet <= 239) {
-        strcpy(class, "D");
-        strcpy(mask, "Not applicable (Multicast)");
-    } else if (first_octet >= 240 && first_octet <= 255) {
-        strcpy(class, "E");
-        strcpy(mask, "Not applicable (Experimental)");
-    } else {
-        strcpy(class, "Unknown");
-        strcpy(mask, "Unknown");
+// Function to authenticate user
+int authenticate(const char *username, const char *password) {
+    FILE *file = fopen("user.txt", "r");
+    if (!file) {
+        perror("Unable to open user.txt");
+        return 0;
     }
+
+    char line[BUF_SIZE];
+    char stored_user[BUF_SIZE], stored_pass[BUF_SIZE];
+
+    // Check each line in the file for username and password
+    while (fgets(line, sizeof(line), file)) {
+        // Extract username and password
+        sscanf(line, "%[^,],%[^;];", stored_user, stored_pass);
+        if (strcmp(username, stored_user) == 0 && strcmp(password, stored_pass) == 0) {
+            fclose(file);
+            return 1;  // Successful login
+        }
+    }
+
+    fclose(file);
+    return 0;  // Login denied
 }
 
-void *handle_client(void *client_socket) {
-    int sock = *(int *)client_socket;
-    char buffer[BUFFER_SIZE];
-    char ip_class[10], subnet_mask[BUFFER_SIZE];
+// Function to handle each client in a separate thread
+void *handle_client(void *arg) {
+    int client_sock = *((int *)arg);
+    free(arg);
+    char buffer[BUF_SIZE], username[BUF_SIZE], password[BUF_SIZE];
 
-    // Receive the IP address from the client
-    recv(sock, buffer, sizeof(buffer), 0);
-    printf("Received IP address from client: %s\n", buffer);
+    // Receive username and password
+    recv(client_sock, buffer, BUF_SIZE, 0);
+    sscanf(buffer, "%[^,],%s", username, password);
 
-    // Determine the class and default mask
-    get_ip_class_and_mask(buffer, ip_class, subnet_mask);
+    // Authenticate user
+    if (authenticate(username, password)) {
+        send(client_sock, "Successful login", strlen("Successful login"), 0);
+    } else {
+        send(client_sock, "Login Denied", strlen("Login Denied"), 0);
+    }
 
-    // Send the class and default mask to the client
-    sprintf(buffer, "Class: %s, Default Mask: %s", ip_class, subnet_mask);
-    send(sock, buffer, strlen(buffer), 0);
-
-    close(sock);
-    free(client_socket);
+    close(client_sock);
     return NULL;
 }
 
 int main() {
-    int server_socket, new_socket;
+    int server_sock, client_sock, *new_sock;
     struct sockaddr_in server_addr, client_addr;
-    socklen_t addr_len = sizeof(client_addr);
-    pthread_t tid;
+    socklen_t client_addr_len = sizeof(client_addr);
+    pthread_t thread_id;
 
-    server_socket = socket(AF_INET, SOCK_STREAM, 0);
-    if (server_socket == -1) {
-        perror("Failed to create socket");
+    // Create a TCP socket
+    server_sock = socket(AF_INET, SOCK_STREAM, 0);
+    if (server_sock < 0) {
+        perror("Socket creation failed");
         exit(EXIT_FAILURE);
     }
 
+    // Initialize server address structure
     server_addr.sin_family = AF_INET;
     server_addr.sin_addr.s_addr = INADDR_ANY;
     server_addr.sin_port = htons(PORT);
 
-    if (bind(server_socket, (struct sockaddr *)&server_addr, sizeof(server_addr)) == -1) {
-        perror("Binding failed");
-        close(server_socket);
+    // Bind the socket
+    if (bind(server_sock, (struct sockaddr *)&server_addr, sizeof(server_addr)) < 0) {
+        perror("Bind failed");
+        close(server_sock);
         exit(EXIT_FAILURE);
     }
 
-    if (listen(server_socket, 5) == -1) {
-        perror("Listening failed");
-        close(server_socket);
+    // Listen for incoming connections
+    if (listen(server_sock, MAX_CLIENTS) < 0) {
+        perror("Listen failed");
+        close(server_sock);
         exit(EXIT_FAILURE);
     }
 
-    printf("Server started, waiting for connections...\n");
+    printf("Server is waiting for clients...\n");
 
-    while (1) {
-        new_socket = accept(server_socket, (struct sockaddr *)&client_addr, &addr_len);
-        if (new_socket == -1) {
-            perror("Accept failed");
-            continue;
+    // Accept clients in a loop
+    while ((client_sock = accept(server_sock, (struct sockaddr *)&client_addr, &client_addr_len))) {
+        printf("Client connected\n");
+
+        // Create a new socket for the client
+        new_sock = malloc(sizeof(int));
+        *new_sock = client_sock;
+
+        // Handle the client in a separate thread
+        if (pthread_create(&thread_id, NULL, handle_client, (void *)new_sock) < 0) {
+            perror("Could not create thread");
+            free(new_sock);
+            close(client_sock);
         }
 
-        int *client_sock_ptr = malloc(sizeof(int));
-        *client_sock_ptr = new_socket;
-        pthread_create(&tid, NULL, handle_client, client_sock_ptr);
+        pthread_detach(thread_id);  // Detach thread for automatic cleanup
     }
 
-    close(server_socket);
+    if (client_sock < 0) {
+        perror("Accept failed");
+        close(server_sock);
+        exit(EXIT_FAILURE);
+    }
+
+    close(server_sock);
     return 0;
 }
